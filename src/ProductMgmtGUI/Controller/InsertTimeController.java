@@ -65,6 +65,7 @@ public class InsertTimeController {
         TimpiController controllerTimpi = new TimpiController();
         int etapa = controllerTimpi.getEtapa();
         etapaLabel.setText(getEtapaLabel(etapa));
+//        System.out.println(etapa);
 
         MainController controller = new MainController();
         seriaLabel.setText(controller.getNumarSerie());
@@ -83,6 +84,12 @@ public class InsertTimeController {
     }
 
     void procesResult () {
+
+        if(dateIn.getValue()==null || oraIn.getValue() == null || minIn.getValue() == null || secIn.getValue() == null){
+            MainController controller1 = new MainController();
+            controller1.showAlert("Campuri goale","Unele dintre campurile din casuta de dialog sunt goale, " +
+                    "va rugam completati-le integral");
+        }else {
         String date = dateIn.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String ora = Integer.toString(oraIn.getValue());
         String min = Integer.toString(minIn.getValue());
@@ -92,10 +99,11 @@ public class InsertTimeController {
         int etapa = controller.getEtapa();
 
 
-        try {
-            DBconnector.getInstance().inserIntoTimpi(DBconnector.getInstance().createString(etapa,date,ora,min,sec));
-        } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                DBconnector.getInstance().executeQuerryTimpi(DBconnector.getInstance().stringInsertTimp(etapa, date, ora, min, sec));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -138,13 +146,13 @@ public class InsertTimeController {
                 etapaStr = "Control macroscopic inceput";
                 break;
             case 62:
-                etapaStr = "Control macroscopic final";
+                etapaStr = "Control macroscopic sfarsit";
                 break;
             case 71:
                 etapaStr="Ambalare inceput";
                 break;
             case 72:
-                etapaStr="Ambalare final";
+                etapaStr="Ambalare sfarsit";
                 break;
         }
         return etapaStr;

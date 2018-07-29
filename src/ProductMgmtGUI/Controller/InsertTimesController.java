@@ -75,7 +75,7 @@ public class InsertTimesController {
         String sec = Integer.toString(secDivInc.getValue());
 
         try {
-            DBconnector.getInstance().inserIntoTimpi(DBconnector.getInstance().createString(etapa,date,ora,min,sec));
+            DBconnector.getInstance().executeQuerryTimpi(DBconnector.getInstance().stringInsertTimp(etapa,date,ora,min,sec));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,7 +83,7 @@ public class InsertTimesController {
 
     void updateRow (int etapa, String date, String ora, String min, String sec) {
         try {
-            DBconnector.getInstance().inserIntoTimpi(DBconnector.getInstance().createString(etapa,date,ora,min,sec));
+            DBconnector.getInstance().executeQuerryTimpi(DBconnector.getInstance().stringInsertTimp(etapa,date,ora,min,sec));
         } catch (SQLException e) {
             e.printStackTrace();
         }

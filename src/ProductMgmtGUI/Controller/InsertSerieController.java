@@ -12,18 +12,21 @@ public class InsertSerieController {
     private TextField inputSerie;
 
     public void processResult (){
-        String numarSerie = inputSerie.getText().trim();
-        MainController controller = new MainController();
-//        if(controller.getIDProdus() == 0 ){
-//            System.out.println("Nu a fost selectat un produs");
-//            return;
-//        }else{
-        try{
-            DBconnector.getInstance().insertSerie(numarSerie, controller.getIDProdus());
-        }catch (SQLException e){
-            System.out.println("Couldn't add serie trhough dialog");
-            e.printStackTrace();
+        String numarSerie = inputSerie.getText();
+
+        if(numarSerie.length()<= 8 && numarSerie.length() >1){
+            MainController controller = new MainController();
+            try{
+                DBconnector.getInstance().insertSerie(numarSerie, controller.getIDProdus());
+            }catch (SQLException e){
+                System.out.println("Couldn't add serie trhough dialog");
+                e.printStackTrace();
+            }
+        }else {
+            MainController controller = new MainController();
+            controller.showAlert("Format serie incorect", "Formatul standard al seriei trebuie sa fie de maxim 8 caractere");
         }
+
         }
     }
 //}

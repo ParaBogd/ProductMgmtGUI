@@ -12,26 +12,34 @@ public class ProductInputDialogueController {
     private TextField prodInputField;
 
     public void modifProd () {
-        String nume = prodInputField.getText().trim();
         MainController controller = new MainController();
-        try {
-            DBconnector.getInstance().modifProdus(nume,controller.getIDProdus());
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+        String nume = prodInputField.getText().trim();
+        if(nume.isEmpty()){
+            controller.showAlert("Completati campul", "Numele produsului nu poate fi gol");
+        }
+        else {
+
+            try {
+                DBconnector.getInstance().modifProdus(nume, controller.getIDProdus());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void processResult () {
+        MainController controller = new MainController();
+
         String nume = prodInputField.getText().trim();// trim folosit pentru a scapa de spatiile albe din fata si spatele textului
-
-        DBconnector connect = DBconnector.getInstance();
-        connect.open();
-
-        try {
-            connect.insertProdus(nume);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (nume.isEmpty()) {
+            controller.showAlert("Completati campul", "Numele produsului nu poate fi gol");
+        } else {
+            try {
+                DBconnector.getInstance().insertProdus(nume);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-
     }
 }

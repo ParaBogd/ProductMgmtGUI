@@ -14,20 +14,26 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 public class TimpiController {
 
     @FXML
     private GridPane timpiGridPane;
+
+    @FXML
+    private Button closeTimp;
 
     @FXML
     private Label div_inceput;
@@ -45,8 +51,6 @@ public class TimpiController {
     private Label umplInceput;
     @FXML
     private Label umplSfarsit;
-    @FXML
-    private Label sterilizat;
     @FXML
     private Label sterInceput;
     @FXML
@@ -94,11 +98,15 @@ public class TimpiController {
 
     public static int etapa;
 
+    private double deltaDragY;
+    private double deltaDragX;
+
     final ContextMenu contextMenu = new ContextMenu();
 
 
     String pattern = "yyyy-MM-dd HH:mm:ss";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
 
     @FXML
     void initialize() {
@@ -121,7 +129,16 @@ public class TimpiController {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println(etapa);
-                System.out.println("Se sterge");
+                try {
+                    DBconnector.getInstance().executeQuerryTimpi(DBconnector.getInstance().stringStergeTimp(etapa));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    System.out.println("Se sterge");
+                    initialize();
+                }
+
             }
         });
 
@@ -129,6 +146,7 @@ public class TimpiController {
             contextMenu.getItems().addAll(modifica, sterge);
         }
 
+//se atribuie contextMenu pentru fiecare camp cu timpi
         div_inceput.setContextMenu(contextMenu);
         div_sfarsit.setContextMenu(contextMenu);
         prepInceput.setContextMenu(contextMenu);
@@ -144,23 +162,7 @@ public class TimpiController {
         ambInceeput.setContextMenu(contextMenu);
         ambSfarsit.setContextMenu(contextMenu);
 
-
-        Timpi timp = cautaTimp();
-        if(timp.getDivizare_inceput() != null){addDivIn.setDisable(true);}
-        if(timp.getDivizare_final() != null){addDivSf.setDisable(true);}
-        if(timp.getPreparare_inceput() != null) {addPrepIn.setDisable(true);}
-        if(timp.getPreparare_sfarsit() != null) {addPrepSf.setDisable(true);}
-        if(timp.getFiltrare_inceput() != null) {addFilIn.setDisable(true);}
-        if(timp.getFiltrare_sfarsit() != null) {addFilSf.setDisable(true);}
-        if(timp.getUmplere_inceput() != null) {addUmpIn.setDisable(true);}
-        if(timp.getUmplere_final() != null) {addUmpSf.setDisable(true);}
-        if(timp.getSterilizare_inceput() != null) {addSterIn.setDisable(true);}
-        if(timp.getSterilizare_final() != null) {addSterSf.setDisable(true);}
-        if(timp.getControl_macroscopic_inceput() != null) {addCmIn.setDisable(true);}
-        if(timp.getControl_macroscopic_final() != null) {addCmSf.setDisable(true);}
-        if(timp.getAmbalare_inceput() != null) {addAmbIn.setDisable(true);}
-        if(timp.getAmbalare_final() != null) {addAmbSf.setDisable(true);}
-
+//   codul de jos populeaza lista de timpi prin metoda checkTimp
         div_inceput.setText(checkTimp(11));
         div_sfarsit.setText(checkTimp(12));
         prepInceput.setText(checkTimp(21));
@@ -169,7 +171,6 @@ public class TimpiController {
         filtrSfarsit.setText(checkTimp(32));
         umplInceput.setText(checkTimp(41));
         umplSfarsit.setText(checkTimp(42));
-        sterilizat.setText(checkTimp(50));
         sterInceput.setText(checkTimp(51));
         sterSfarsit.setText(checkTimp(52));
         contrMcInceput.setText(checkTimp(61));
@@ -179,6 +180,26 @@ public class TimpiController {
         MainController controller = new MainController();
         labelSerie.setText(controller.getNumarSerie());
 
+// Se verifica daca in baza de date exista un timp si daca da se blocheaza butonul de adugare
+        Timpi timp = cautaTimp();
+        if(timp.getDivizare_inceput() != null){addDivIn.setDisable(true);}else{addDivIn.setDisable(false);}
+        if(timp.getDivizare_final() != null){addDivSf.setDisable(true);}else{addDivSf.setDisable(false);}
+        if(timp.getPreparare_inceput() != null) {addPrepIn.setDisable(true);}else{addPrepIn.setDisable(false);}
+        if(timp.getPreparare_sfarsit() != null) {addPrepSf.setDisable(true);}else{addPrepSf.setDisable(false);}
+        if(timp.getFiltrare_inceput() != null) {addFilIn.setDisable(true);}else{addFilIn.setDisable(false);}
+        if(timp.getFiltrare_sfarsit() != null) {addFilSf.setDisable(true);}else{addFilSf.setDisable(false);}
+        if(timp.getUmplere_inceput() != null) {addUmpIn.setDisable(true);}else{addUmpIn.setDisable(false);}
+        if(timp.getUmplere_final() != null) {addUmpSf.setDisable(true);}else{addUmpSf.setDisable(false);}
+        if(timp.getSterilizare_inceput() != null) {addSterIn.setDisable(true);}else{addSterIn.setDisable(false);}
+        if(timp.getSterilizare_final() != null) {addSterSf.setDisable(true);}else{addSterSf.setDisable(false);}
+        if(timp.getControl_macroscopic_inceput() != null) {addCmIn.setDisable(true);}else{addCmIn.setDisable(false);}
+        if(timp.getControl_macroscopic_final() != null) {addCmSf.setDisable(true);}else{addCmSf.setDisable(false);}
+        if(timp.getAmbalare_inceput() != null) {addAmbIn.setDisable(true);}else{addAmbIn.setDisable(false);}
+        if(timp.getAmbalare_final() != null) {addAmbSf.setDisable(true);}else{addAmbSf.setDisable(false);}
+
+
+
+// se seteaza etapa la momentul la care se da right-click pe label-ul cu timp
         div_inceput.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
             @Override
             public void handle(ContextMenuEvent event) {
@@ -278,203 +299,179 @@ public class TimpiController {
             }
         });
 
+//  Se evoca dialogul de adaugare timpi si pentru fiecare buton se atribuie codul etapei
+
         addDivIn.setOnAction(event -> {
+            etapa=11;
             try {
                 vizAddTimpiDialog(event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            etapa=11;
             System.out.println(etapa);
         });
 
         addDivSf.setOnAction(event -> {
+            etapa=12;
             try {
                 vizAddTimpiDialog(event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            etapa=12;
             System.out.println(etapa);
         });
 
         addPrepIn.setOnAction(event -> {
+            etapa=21;
             try {
                 vizAddTimpiDialog(event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            etapa=21;
             System.out.println(etapa);
         });
 
         addPrepSf.setOnAction(event -> {
+            etapa=22;
             try {
                 vizAddTimpiDialog(event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            etapa=22;
             System.out.println(etapa);
         });
 
         addFilIn.setOnAction(event -> {
+            etapa=31;
             try {
                 vizAddTimpiDialog(event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            etapa=31;
             System.out.println(etapa);
         });
 
         addFilSf.setOnAction(event -> {
+            etapa=32;
             try {
                 vizAddTimpiDialog(event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            etapa=32;
             System.out.println(etapa);
         });
 
         addUmpIn.setOnAction(event -> {
+            etapa=41;
             try {
                 vizAddTimpiDialog(event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            etapa=41;
             System.out.println(etapa);
         });
 
         addUmpSf.setOnAction(event -> {
+            etapa=42;
             try {
                 vizAddTimpiDialog(event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            etapa=42;
             System.out.println(etapa);
         });
 
-        addSterIn.setOnAction(event -> { try {
-            vizAddTimpiDialog(event);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        addSterIn.setOnAction(event -> {
             etapa=51;
+            try {
+                vizAddTimpiDialog(event);
+            } catch (IOException e) {
+            e.printStackTrace();
+            }
             System.out.println(etapa);} );
 
-        addSterSf.setOnAction(event -> { try {
-            vizAddTimpiDialog(event);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        addSterSf.setOnAction(event -> {
             etapa=52;
+            try {
+                vizAddTimpiDialog(event);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             System.out.println(etapa);});
 
        addCmIn.setOnAction(event -> {
+           etapa=61;
            try {
                vizAddTimpiDialog(event);
            } catch (IOException e) {
                e.printStackTrace();
            }
-           etapa=61;
            System.out.println(etapa);
        });
 
        addCmSf.setOnAction(event -> {
+           etapa=62;
            try {
                vizAddTimpiDialog(event);
            } catch (IOException e) {
                e.printStackTrace();
            }
-           etapa=62;
            System.out.println(etapa);
        });
 
        addAmbIn.setOnAction(event -> {
+           etapa=71;
            try {
                vizAddTimpiDialog(event);
            } catch (IOException e) {
                e.printStackTrace();
            }
-           etapa=71;
            System.out.println(etapa);
        });
 
        addAmbSf.setOnAction(event -> {
+           etapa=72;
            try {
                vizAddTimpiDialog(event);
            } catch (IOException e) {
                e.printStackTrace();
            }
-           etapa=72;
            System.out.println(etapa);
        });
+
+       closeTimp.setOnAction(event -> {
+           exitWindow();
+       });
+
+
+       timpiGridPane.setOnMousePressed(new javafx.event.EventHandler<MouseEvent>() {
+           @Override
+           public void handle(MouseEvent event) {
+               deltaDragY = getStage().getY() - event.getScreenY();
+               deltaDragX = getStage().getX() - event.getScreenX();
+           }
+       });
+
+       timpiGridPane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+           @Override
+           public void handle(MouseEvent event) {
+               getStage().setX(event.getScreenX() + deltaDragX);
+               getStage().setY(event.getScreenY() + deltaDragY);
+           }
+       });
+
     }
 
+    public Stage getStage () {
+        Stage stage = (Stage)  timpiGridPane.getScene().getWindow();
+        return stage;
 
-    public String populateLabels (int etapa) {
-        String timpRet = null;
-        Boolean sterilizare = false;
+    }
 
-        Timpi timp = cautaTimp();
-                switch(etapa) {
-                    case 11:
-                        timpRet = simpleDateFormat.format(timp.getDivizare_inceput());
-                        System.out.println(timpRet);
-                        break;
-                    case 12:
-                        timpRet = simpleDateFormat.format(timp.getDivizare_final());
-                        System.out.println(timpRet);
-                        break;
-                    case 21:
-                        timpRet = simpleDateFormat.format(timp.getPreparare_inceput());
-                        break;
-                    case 22:
-                        timpRet = simpleDateFormat.format(timp.getPreparare_sfarsit());
-                        break;
-                    case 31:
-                        timpRet = simpleDateFormat.format(timp.getFiltrare_inceput());
-                        break;
-                    case 32:
-                        timpRet = simpleDateFormat.format(timp.getFiltrare_sfarsit());
-                        break;
-                    case 41:
-                        timpRet = simpleDateFormat.format(timp.getUmplere_inceput());
-                        break;
-                    case 42:
-                        timpRet = simpleDateFormat.format(timp.getUmplere_final());
-                        break;
-                    case 50:
-                        if(timp.isSterilizat()){
-                           timpRet = "DA";
-                        }else{
-                            timpRet = "NU";
-                        }
-                        break;
-                    case 51:
-                        timpRet = simpleDateFormat.format(timp.getSterilizare_inceput());
-                        break;
-                    case 52:
-                        timpRet = simpleDateFormat.format(timp.getSterilizare_final());
-                        break;
-                    case 61:
-                        timpRet = simpleDateFormat.format(timp.getControl_macroscopic_inceput());
-                        break;
-                    case 62:
-                        timpRet = simpleDateFormat.format(timp.getControl_macroscopic_final());
-                        break;
-                    case 71:
-                        timpRet = simpleDateFormat.format(timp.getAmbalare_inceput());
-                        break;
-                    case 72:
-                        timpRet = simpleDateFormat.format(timp.getAmbalare_final());
-                        break;
-                }
-        return timpRet;
+    public void exitWindow () {
+        Stage stage = (Stage) closeTimp.getScene().getWindow();
+
+        stage.close();
     }
 
     public Timestamp getTimes (int etapa) {
@@ -484,11 +481,11 @@ public class TimpiController {
         switch(etapa) {
             case 11:
                 timestamp = timp.getDivizare_inceput();
-                System.out.println(timp);
+//                System.out.println(timp);
                 break;
             case 12:
                 timestamp = timp.getDivizare_final();
-                System.out.println(timp);
+//                System.out.println(timp);
                 break;
             case 21:
                 timestamp = timp.getPreparare_inceput();
@@ -508,13 +505,13 @@ public class TimpiController {
             case 42:
                 timestamp = timp.getUmplere_final();
                 break;
-            case 50:
-                if(timp.isSterilizat()){
-                    System.out.println("DA");
-                }else{
-                    System.out.println("NU");
-                }
-                break;
+//            case 50:
+//                if(timp.isSterilizat()){
+//                    System.out.println("DA");
+//                }else{
+//                    System.out.println("NU");
+//                }
+//                break;
             case 51:
                 timestamp = timp.getSterilizare_inceput();
                 break;
@@ -543,22 +540,24 @@ public class TimpiController {
         String noTimp = "Nu exista timp inregistrat";
         String sterilizat = "Produsul nu se sterilizeaza";
 
-        if(etapa == 50 && cautaTimp().isSterilizat() == false){
-           returned = "Nu se sterilizeaza";
-           if(etapa == 51 || etapa == 52){
-               returned = sterilizat;
-           }
-        }else {
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+//        if(etapa == 50 && cautaTimp().isSterilizat() == false){
+//           returned = "Nu se sterilizeaza";
+//           if(etapa == 51 || etapa == 52){
+//               returned = sterilizat;
+//           }
+//        }else {
             if (getTimes(etapa) != null) {
                 returned = simpleDateFormat.format(getTimes(etapa));
             } else {
                 returned = noTimp;
-                if(etapa == 50 && cautaTimp().isSterilizat())
-                {
-                    returned = "Se sterilizeaza";
-                }
+//                if(etapa == 50 && cautaTimp().isSterilizat())
+//                {
+//                    returned = "Se sterilizeaza";
+//                }
             }
-        }
+//        }
         return returned;
     }
 
@@ -571,9 +570,9 @@ public class TimpiController {
             if (idSerie == timp.getIdSerie()) {
                 timpRet = timp;
             }
-            else{
-                System.out.println("Timpul cautat nu exista");
-            }
+//            else{
+//                System.out.println("Timpul cautat nu exista");
+//            }
         }
         return timpRet;
     }
@@ -607,23 +606,24 @@ public class TimpiController {
 
     }
 
-    public void updateLabels () {
-        div_inceput.setText(checkTimp(11));
-        div_sfarsit.setText(checkTimp(12));
-        prepInceput.setText(checkTimp(21));
-        prepSfarsit.setText(checkTimp(22));
-        filtrInceput.setText(checkTimp(31));
-        filtrSfarsit.setText(checkTimp(32));
-        umplInceput.setText(checkTimp(41));
-        umplSfarsit.setText(checkTimp(42));
-        sterilizat.setText(checkTimp(50));
-        sterInceput.setText(checkTimp(51));
-        sterSfarsit.setText(checkTimp(52));
-        contrMcInceput.setText(checkTimp(61));
-        controlMcSfarsit.setText(checkTimp(62));
-        ambInceeput.setText(checkTimp(71));
-        ambSfarsit.setText(checkTimp(72));
-    }
+//    public void updateLabels () {
+//        div_inceput.setText(checkTimp(11));
+//        div_sfarsit.setText(checkTimp(12));
+//        prepInceput.setText(checkTimp(21));
+//        prepSfarsit.setText(checkTimp(22));
+//        filtrInceput.setText(checkTimp(31));
+//        filtrSfarsit.setText(checkTimp(32));
+//        umplInceput.setText(checkTimp(41));
+//        umplSfarsit.setText(checkTimp(42));
+//        sterilizat.setText(checkTimp(50));
+//        sterInceput.setText(checkTimp(51));
+//        sterSfarsit.setText(checkTimp(52));
+//        contrMcInceput.setText(checkTimp(61));
+//        controlMcSfarsit.setText(checkTimp(62));
+//        ambInceeput.setText(checkTimp(71));
+//        ambSfarsit.setText(checkTimp(72));
+//    }
+
 
     public static int getEtapa() {
         return etapa;

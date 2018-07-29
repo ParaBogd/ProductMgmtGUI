@@ -11,41 +11,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProductMgmtGUI.MainController">
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem fx:id="addProdus" mnemonicParsing="false" onAction="#showProdusNou" text="Adauga Produs" />
-              <MenuItem fx:id="modProdus" disable="true" mnemonicParsing="false" text="Modifica Nume Produs" />
-              <MenuItem fx:id="delProdus" disable="true" mnemonicParsing="false" text="Sterge Produs" />
-                <SeparatorMenuItem />
-              <MenuItem fx:id="exit" mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu fx:id="menSerii" mnemonicParsing="false" text="Serii">
-            <items>
-              <MenuItem fx:id="addSerie" disable="true" mnemonicParsing="false" onAction="#showSerieNoua" text="Adauga Serie" />
-              <MenuItem fx:id="vizSerii" disable="true" mnemonicParsing="false" text="Vizualizare Serii" />
-              <MenuItem fx:id="delSerie" disable="true" mnemonicParsing="false" text="Sterge o serie" />
-            </items>
-          </Menu>
-            <Menu fx:id="menTimpi" mnemonicParsing="false" text="Timpi">
-              <items>
-                <MenuItem fx:id="vizTimpi" disable="true" mnemonicParsing="false" text="Vezi timpi" />
-                <!--<MenuItem fx:id="addTimp" disable="true" mnemonicParsing="false" text="Adauga timpi"/>-->
-              </items>
-            </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem fx:id="instruct" mnemonicParsing="false" onAction="#instructiuniDialog" text="Instructiuni"/>
-              <MenuItem fx:id="about" mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="790.0" style="-fx-background-color: #e3f5fe" stylesheets="@View/MgmtStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProductMgmtGUI.MainController">
    <left>
        <!--<VBox>-->
           <!--<children>-->
@@ -57,7 +23,7 @@
                   <!--<Insets left="15.0" />-->
                <!--</VBox.margin>-->
               <!--</Label>-->
-         <ListView fx:id="listProduse" prefHeight="556.0" prefWidth="337.0" BorderPane.alignment="CENTER" />
+         <ListView fx:id="listProduse" prefHeight="556.0" prefWidth="337.0" style="-fx-font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif; -fx-font-size: 12;" BorderPane.alignment="CENTER" />
           <!--</children>-->
        <!--</VBox>-->
    </left>
@@ -71,4 +37,47 @@
          </font>
       </Label>
    </center>
+   <top>
+      <StackPane prefHeight="36.0" prefWidth="820.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar fx:id="menuBar" prefHeight="52.0" prefWidth="820.0" style="-fx-background-color: #31abf6; -fx-font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif; -fx-font-size: 14">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem fx:id="addProdus" mnemonicParsing="false" onAction="#showProdusNou" text="Adauga Produs" />
+                    <MenuItem fx:id="modProdus" disable="true" mnemonicParsing="false" text="Modifica Nume Produs" />
+                    <MenuItem fx:id="delProdus" disable="true" mnemonicParsing="false" text="Sterge Produs" />
+                      <SeparatorMenuItem />
+                    <MenuItem fx:id="exit" mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu fx:id="menSerii" mnemonicParsing="false" text="Serii">
+                  <items>
+                    <MenuItem fx:id="addSerie" disable="true" mnemonicParsing="false" onAction="#showSerieNoua" text="Adauga Serie" />
+                    <MenuItem fx:id="vizSerii" disable="true" mnemonicParsing="false" text="Vizualizare Serii" />
+                    <MenuItem fx:id="delSerie" disable="true" mnemonicParsing="false" text="Sterge o serie" />
+                  </items>
+                </Menu>
+                  <Menu fx:id="menTimpi" mnemonicParsing="false" text="Timpi">
+                    <items>
+                      <MenuItem fx:id="vizTimpi" disable="true" mnemonicParsing="false" text="Vezi timpi" />
+                      <!--<MenuItem fx:id="addTimp" disable="true" mnemonicParsing="false" text="Adauga timpi"/>-->
+                    </items>
+                  </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem fx:id="instruct" mnemonicParsing="false" onAction="#instructiuniDialog" text="Instructiuni" />
+                    <MenuItem fx:id="about" mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <Button fx:id="closeMain" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" style="-fx-background-color: #e86200;" text="X" textAlignment="CENTER">
+               <StackPane.margin>
+                  <Insets left="730.0" />
+               </StackPane.margin>
+            </Button>
+         </children>
+      </StackPane>
+   </top>
 </BorderPane>

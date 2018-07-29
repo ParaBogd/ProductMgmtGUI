@@ -56,9 +56,7 @@ public class DBconnector {
     private PreparedStatement modifProdus;
     private PreparedStatement deleteProdus;
     private PreparedStatement deleteSerie;
-    private PreparedStatement insertTimp;
     private PreparedStatement newTimp;
-
     private Connection myCon;
 
     //metoda de instantiere
@@ -118,9 +116,7 @@ public class DBconnector {
                 deleteSerie.close();
             }
 
-            if (insertTimp != null) {
-                insertTimp.close();
-            }
+
 
             if (newTimp != null) {
                 newTimp.close();
@@ -211,7 +207,7 @@ public class DBconnector {
                 timp.setFiltrare_sfarsit(myRs.getTimestamp(COLUMN_FILTRARE_SFARSIT));
                 timp.setUmplere_inceput(myRs.getTimestamp(COLUMN_UMPLERE_INCEPUT));
                 timp.setUmplere_final(myRs.getTimestamp(COLUMN_UMPLERE_SFARSIT));
-                timp.setSterilizat(myRs.getBoolean(COLUMN_STERILIZAT));
+//                timp.setSterilizat(myRs.getBoolean(COLUMN_STERILIZAT));
                 timp.setSterilizare_inceput(myRs.getTimestamp(COLUMN_STERILIZARE_INCEPUT));
                 timp.setSterilizare_final(myRs.getTimestamp(COLUMN_STERILIZARE_FINAL));
                 timp.setControl_macroscopic_inceput(myRs.getTimestamp(COLUMN_CONTROL_MACROSCOPIC_INCEPUT));
@@ -338,93 +334,135 @@ public class DBconnector {
         }
     }
 
-    public void inserIntoTimpi (String query) throws SQLException {
+    //metoda care primeste string-ul de la strinStergeTimp sau stringInsertTimp si il executa in SQL
+    public void executeQuerryTimpi(String query) throws SQLException {
 
         Statement myStmt = myCon.createStatement();
         int affectedRows = myStmt.executeUpdate(query);
 
         if(affectedRows != 1) {
-         throw new SQLException("Nu s-a putut adauga timpul");
+         throw new SQLException("Nu s-a putut executa querry-ul");
         }
-
     }
 
 
-    // metoda creeaza un prepared Statement custom pentru fiecare timp si il paseaza la insertIntoTimpi
-//    public PreparedStatement createPreparedStatement (int etapa, String data, String ora, String min, String sec) throws SQLException  {
-//        switch (etapa){
-//            case 1:
-//                insertTimp.setString(1,COLUMN_DIVIZARE_INCEPUT);
+//     metoda creeza un SQL statement sub forma de string pentru a fi executat de catre metoda de executie,
+//    a fost folosit un string in loc de preparedStatement pentru a putea pasa nume de tabel intr-in mod dinamic
+    public String stringStergeTimp(int etapa) throws SQLException  {
+        StringBuilder sb = new StringBuilder();
+        sb.append("UPDATE " + TABLE_TIMPI + " SET ");
+
+        sb.append(returnColoanaTimp(etapa));
+
+//        switch (etapa) {
+//            case 11:
+//                sb.append(COLUMN_DIVIZARE_INCEPUT + " = ");
+//                break;
+//            case 12:
+//                sb.append(COLUMN_DIVIZARE_FINAL + " = ");
+//                break;
+//            case 21:
+//                sb.append(COLUMN_PREPARARE_INCEPUT + " = ");
+//                break;
+//            case 22:
+//                sb.append(COLUMN_PREPARARE_SFARSIT + " = ");
+//                break;
+//            case 31:
+//                sb.append(COLUMN_FILTRARE_INCEPUT + " = ");
+//                break;
+//            case 32:
+//                sb.append(COLUMN_FILTRARE_SFARSIT + " = ");
+//                break;
+//            case 41:
+//                sb.append(COLUMN_UMPLERE_INCEPUT + " = ");
+//                break;
+//            case 42:
+//                sb.append(COLUMN_UMPLERE_SFARSIT + " = ");
+//                break;
+//            case 51:
+//                sb.append(COLUMN_STERILIZARE_INCEPUT + " = ");
+//                break;
+//            case 52:
+//                sb.append(COLUMN_STERILIZARE_FINAL + " = ");
+//                break;
+//            case 61:
+//                sb.append(COLUMN_CONTROL_MACROSCOPIC_INCEPUT + " = ");
+//                break;
+//            case 62:
+//                sb.append(COLUMN_CONTROL_MACROSCOPIC_FINAL + " = ");
+//                break;
+//            case 71:
+//                sb.append(COLUMN_AMBALARE_INCEPUT + " = ");
+//                break;
+//            case 72:
+//                sb.append(COLUMN_AMBALARE_FINAL + " = ");
 //                break;
 //        }
-//        StringBuilder sb = new StringBuilder();
-//        sb.append(data);
-//        sb.append(" ");
-//        sb.append(ora);
-//        sb.append(":");
-//        sb.append(min);
-//        sb.append(":");
-//        sb.append(sec);
-//        String argument = sb.toString();
-//        insertTimp.setString(1, argument);
-//        MainController controller = new MainController();
-//        insertTimp.setInt(2, controller.getIDSerie());
-//
-//        System.out.println(insertTimp);
-//        return insertTimp;
-//
-//    }
 
-    //metoda care preia datele din InsertTimesController si creeaza un query care e pasata la insertIntoTimpi
-    public String createString (int etapa, String data, String ora, String minut, String secunda) {
+        sb.append(" = NULL WHERE " + COLUMN_ID_SERIE + " = ");
+
+        MainController controller = new MainController();
+        int idSerie = controller.getIDSerie();
+
+        sb.append(idSerie);
+
+        System.out.println(sb.toString());
+        return sb.toString();
+    }
+
+    //metoda care preia datele din InsertTimesController si creeaza un query care e pasata la executeTimpQuerry
+//    string in loc de preparedStatement pentru a selecta dincamic numele coloanei din tabel
+    public String stringInsertTimp(int etapa, String data, String ora, String minut, String secunda) {
         StringBuilder sb = new StringBuilder();
         sb.append(" UPDATE " + TABLE_TIMPI + " SET ");
-        switch (etapa) {
-            case 11:
-                sb.append(COLUMN_DIVIZARE_INCEPUT + " = ");
-                break;
-            case 12:
-                sb.append(COLUMN_DIVIZARE_FINAL + " = ");
-                break;
-            case 21:
-                sb.append(COLUMN_PREPARARE_INCEPUT + " = ");
-                break;
-            case 22:
-                sb.append(COLUMN_PREPARARE_SFARSIT + " = ");
-                break;
-            case 31:
-                sb.append(COLUMN_FILTRARE_INCEPUT + " = ");
-                break;
-            case 32:
-                sb.append(COLUMN_FILTRARE_SFARSIT + " = ");
-                break;
-            case 41:
-                sb.append(COLUMN_UMPLERE_INCEPUT + " = ");
-                break;
-            case 42:
-                sb.append(COLUMN_UMPLERE_SFARSIT + " = ");
-                break;
-            case 51:
-                sb.append(COLUMN_STERILIZARE_INCEPUT + " = ");
-                break;
-            case 52:
-                sb.append(COLUMN_STERILIZARE_FINAL + " = ");
-                break;
-            case 61:
-                sb.append(COLUMN_CONTROL_MACROSCOPIC_INCEPUT + " = ");
-                break;
-            case 62:
-                sb.append(COLUMN_CONTROL_MACROSCOPIC_FINAL + " = ");
-                break;
-            case 71:
-                sb.append(COLUMN_AMBALARE_INCEPUT + " = ");
-                break;
-            case 72:
-                sb.append(COLUMN_AMBALARE_FINAL + " = ");
-                break;
-        }
 
-        sb.append("'" + data + ' ' + ora + ':' + minut + ':' + secunda + "'");
+        sb.append(returnColoanaTimp(etapa));
+//        switch (etapa) {
+//            case 11:
+//                sb.append(COLUMN_DIVIZARE_INCEPUT + " = ");
+//                break;
+//            case 12:
+//                sb.append(COLUMN_DIVIZARE_FINAL + " = ");
+//                break;
+//            case 21:
+//                sb.append(COLUMN_PREPARARE_INCEPUT + " = ");
+//                break;
+//            case 22:
+//                sb.append(COLUMN_PREPARARE_SFARSIT + " = ");
+//                break;
+//            case 31:
+//                sb.append(COLUMN_FILTRARE_INCEPUT + " = ");
+//                break;
+//            case 32:
+//                sb.append(COLUMN_FILTRARE_SFARSIT + " = ");
+//                break;
+//            case 41:
+//                sb.append(COLUMN_UMPLERE_INCEPUT + " = ");
+//                break;
+//            case 42:
+//                sb.append(COLUMN_UMPLERE_SFARSIT + " = ");
+//                break;
+//            case 51:
+//                sb.append(COLUMN_STERILIZARE_INCEPUT + " = ");
+//                break;
+//            case 52:
+//                sb.append(COLUMN_STERILIZARE_FINAL + " = ");
+//                break;
+//            case 61:
+//                sb.append(COLUMN_CONTROL_MACROSCOPIC_INCEPUT + " = ");
+//                break;
+//            case 62:
+//                sb.append(COLUMN_CONTROL_MACROSCOPIC_FINAL + " = ");
+//                break;
+//            case 71:
+//                sb.append(COLUMN_AMBALARE_INCEPUT + " = ");
+//                break;
+//            case 72:
+//                sb.append(COLUMN_AMBALARE_FINAL + " = ");
+//                break;
+//        }
+
+        sb.append(" = '" + data + ' ' + ora + ':' + minut + ':' + secunda + "'");
         sb.append(" WHERE idSerie = ");
         MainController controller = new MainController();
         sb.append(controller.getIDSerie());
@@ -433,16 +471,54 @@ public class DBconnector {
         return sb.toString();
     }
 
-//    public int getIDprodus (String nume) {
-//        ArrayList<Produs> produse = queryProduse();
-//
-//        for(Produs produs:produse){
-//            if(nume.equals(produs.getName())){
-//                return produs.getId();
-//            }
-//        }
-//
-//        return 0;
-//    }
+//    metoda alege in functie de codul etapei primite de la timpiController numele coloanei;
+    public String returnColoanaTimp (int etapa) {
+        String etapaStr = null;
+        switch (etapa) {
+            case 11:
+                etapaStr = COLUMN_DIVIZARE_INCEPUT;
+                break;
+            case 12:
+                etapaStr = COLUMN_DIVIZARE_FINAL;
+                break;
+            case 21:
+                etapaStr = COLUMN_PREPARARE_INCEPUT;
+                break;
+            case 22:
+                etapaStr = COLUMN_PREPARARE_SFARSIT;
+                break;
+            case 31:
+                etapaStr = COLUMN_FILTRARE_INCEPUT;
+                break;
+            case 32:
+                etapaStr = COLUMN_FILTRARE_SFARSIT;
+                break;
+            case 41:
+                etapaStr = COLUMN_UMPLERE_INCEPUT;
+                break;
+            case 42:
+                etapaStr = COLUMN_UMPLERE_SFARSIT;
+                break;
+            case 51:
+                etapaStr = COLUMN_STERILIZARE_INCEPUT;
+                break;
+            case 52:
+                etapaStr = COLUMN_STERILIZARE_FINAL;
+                break;
+            case 61:
+                etapaStr = COLUMN_CONTROL_MACROSCOPIC_INCEPUT;
+                break;
+            case 62:
+                etapaStr = COLUMN_CONTROL_MACROSCOPIC_FINAL;
+                break;
+            case 71:
+                etapaStr = COLUMN_AMBALARE_INCEPUT;
+                break;
+            case 72:
+                etapaStr = COLUMN_AMBALARE_FINAL;
+                break;
+        }
+        return etapaStr;
+    }
 
 }

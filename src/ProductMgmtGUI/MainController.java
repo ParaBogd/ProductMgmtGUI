@@ -9,15 +9,18 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -30,15 +33,24 @@ import java.util.ResourceBundle;
 
 public class MainController {
 
+    private double dragDeltaX;
+    private double dragDeltaY;
+
     private static int idProdus;//variabila care stocheaza id-ul pentru un produs
     private static int idSerie;//variabila care stocheaza id-ul pentru o serie
     private static String numarSerie; // variabila inmagazineaza numarul serie selctate
+
+    @FXML
+    private Button closeMain;
 
     @FXML
     private ResourceBundle resources;
 
     @FXML
     private URL location;
+
+    @FXML
+    private MenuBar menuBar;
 
     @FXML
     private Menu menTimpi;
@@ -98,16 +110,19 @@ public class MainController {
                 vizSerii.setDisable(false);
                 addSerie.setDisable(false);
                 delProdus.setDisable(false);
+                listSerii.setItems(null);
                 if(listProduse.getSelectionModel().isEmpty()){
                     idProdus = 0;
                 }else {
                     idProdus = listProduse.getSelectionModel().selectedItemProperty().getValue().getId();
                     System.out.println(getIDProdus());
+
                 }
             }
         });
 
         listSerii.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Serii>() {
+
             @Override
             public void changed(ObservableValue<? extends Serii> observable, Serii oldValue, Serii newValue) {
                 delSerie.setDisable(false);
@@ -188,6 +203,7 @@ public class MainController {
                     "tuturor timpilor asociati!")){
                 try {
                     DBconnector.getInstance().deleteSerie(idSerie);
+                    vizSeriiPress();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -209,6 +225,10 @@ public class MainController {
             Platform.exit();
         });
 
+        closeMain.setOnAction(event -> {
+            Platform.exit();
+        });
+
         vizTimpi.setOnAction(event -> {
             try{
                 vizTimpipress(event);
@@ -217,15 +237,33 @@ public class MainController {
             }
         });
 
-//        addTimp.setOnAction(event -> {
-//            try {
-//                vizAddTimpi(event);
-//            }catch (IOException e){
-//                e.printStackTrace();
-//            }
-//        });
+
+
+   menuBar.setOnMousePressed(new javafx.event.EventHandler<MouseEvent>() {
+       @Override
+       public void handle(MouseEvent event) {
+            dragDeltaY = getStage().getY() - event.getScreenY();
+            dragDeltaX = getStage().getX() - event.getScreenX();
+       }
+   });
+
+
+   menuBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+       @Override
+       public void handle(MouseEvent event) {
+             getStage().setX(event.getScreenX() + dragDeltaX);
+             getStage().setY(event.getScreenY() + dragDeltaY );
+       }
+   });
 
     }
+
+    public Stage getStage () {
+        Stage stage = (Stage) mainBorderPane.getScene().getWindow();
+        return stage;
+    }
+
+
 //Alerta
     @FXML
     public boolean showAlert (String headerTxt, String contentTxt) {
@@ -348,6 +386,7 @@ public class MainController {
         Stage stage = new Stage();
         stage.setTitle("Vizualizare timpi");
         stage.setScene(new Scene(root, 600, 600));
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(mainBorderPane.getScene().getWindow());
         stage.show();
@@ -379,9 +418,10 @@ public class MainController {
         alert.setTitle("Instructiuni");
         alert.setHeaderText(null);
         alert.setContentText("Instructiuni de utilizare\n" +
-                "Produsele sunt afisate in casuta din dreapta, slectati produsul si vedeti seriile in lista din dreapta" +
+                "Produsele sunt afisate in casuta din stanga, slectati produsul si vedeti seriile in lista din dreapta" +
                 " prin butoanele din meniu. Selectati seria si accesati meniul timpi pentru a vizualiza timpii asociati cu " +
-                "seria selectata. Din meniul de vizualizare a timpiilor se pot adauga timpii lipsa.");
+                "seria selectata. Din meniul de vizualizare a timpiilor se pot adauga timpii, iar printr-un meniu contextual " +
+                "accesat cu click dreapta pe timp se poate modifica sau sterge timpul inregistrat.");
         alert.showAndWait();
     }
 

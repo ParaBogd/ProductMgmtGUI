@@ -6,7 +6,6 @@ public class Timpi {
 
 
     private int idtimpi;
-    //    private String divizare_inceputS;
     private Timestamp divizare_inceput;
     private Timestamp divizare_final;
     private Timestamp Preparare_inceput;
@@ -16,6 +15,14 @@ public class Timpi {
     private Timestamp Umplere_inceput;
     private Timestamp Umplere_final;
     private boolean Sterilizat;
+
+    private Timestamp Sterilizare_inceput;
+    private Timestamp Sterilizare_final;
+    private Timestamp Control_macroscopic_inceput;
+    private Timestamp Control_macroscopic_final;
+    private Timestamp Ambalare_inceput;
+    private Timestamp Ambalare_final;
+    private int idSerie;
 
     public Timestamp getUmplere_inceput() {
         return Umplere_inceput;
@@ -33,14 +40,6 @@ public class Timpi {
         Umplere_final = umplere_final;
     }
 
-    private Timestamp Sterilizare_inceput;
-    private Timestamp Sterilizare_final;
-    private Timestamp Control_macroscopic_inceput;
-    private Timestamp Control_macroscopic_final;
-    private Timestamp Ambalare_inceput;
-    private Timestamp Ambalare_final;
-    private int idSerie;
-
     public int getIdtimpi() {
         return idtimpi;
     }
@@ -49,13 +48,6 @@ public class Timpi {
         this.idtimpi = idtimpi;
     }
 
-//    public String getDivizare_inceputS() {
-//        return divizare_inceputS;
-//    }
-
-//    public void setDivizare_inceputS(String divizare_inceputS) {
-//        this.divizare_inceputS = divizare_inceputS;
-//    }
 
     public Timestamp getDivizare_inceput() {
         return divizare_inceput;

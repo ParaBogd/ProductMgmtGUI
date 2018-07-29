@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
@@ -14,10 +15,15 @@ public class Main extends Application {
         DBconnector.getInstance().open();
         Parent root = FXMLLoader.load(getClass().getResource("MgmtWindow.fxml"));
         primaryStage.setTitle("Management Produs 3000");
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.setResizable(false);
         primaryStage.show();
+
+
     }
+
+
 
 
     public static void main(String[] args) {
@@ -33,6 +39,8 @@ public class Main extends Application {
     public void stop() throws Exception {
         DBconnector.getInstance().close();
     }
+
+
 }
 
 

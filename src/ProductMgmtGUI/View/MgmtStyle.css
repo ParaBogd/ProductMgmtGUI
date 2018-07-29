@@ -1,0 +1,18 @@
+.list-cell:filled:selected{
+    -fx-font-size: 16;
+    -fx-font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+}
+
+.list-view .list-cell:odd{
+    -fx-background: #e3f5fe;
+    -fx-text-fill: black;
+}
+
+.list-view .list-cell:even{
+    -fx-text-fill: black;
+}
+
+.list-view .list-cell:selected:odd,
+.list-view .list-cell:selected:even {
+    -fx-background-color: #fcceb7;
+}

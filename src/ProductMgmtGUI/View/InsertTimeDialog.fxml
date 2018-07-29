@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="181.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProductMgmtGUI.Controller.InsertTimeController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="181.0" prefWidth="349.0" style="-fx-background-color: #e3f5fe;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProductMgmtGUI.Controller.InsertTimeController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="10.0" prefWidth="101.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="232.0" minWidth="10.0" prefWidth="232.0" />
@@ -27,7 +27,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <DatePicker fx:id="dateIn" prefHeight="25.0" prefWidth="215.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <DatePicker fx:id="dateIn" prefHeight="25.0" prefWidth="215.0" style="-fx-background-color: #b7e5fc;" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="5.0" right="5.0" />
          </GridPane.margin>
@@ -47,19 +47,19 @@
       </Label>
       <HBox alignment="CENTER_LEFT" prefHeight="98.0" prefWidth="253.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <children>
-            <ComboBox fx:id="oraIn" prefHeight="25.0" prefWidth="70.0" />
+            <ComboBox fx:id="oraIn" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #b7e5fc;" />
             <Label alignment="CENTER" prefHeight="30.0" prefWidth="10.0" text=":">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <ComboBox fx:id="minIn" prefHeight="25.0" prefWidth="70.0" />
+            <ComboBox fx:id="minIn" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #b7e5fc;" />
             <Label alignment="CENTER" prefHeight="30.0" prefWidth="10.0" text=":">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <ComboBox fx:id="secIn" prefHeight="25.0" prefWidth="70.0" />
+            <ComboBox fx:id="secIn" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #b7e5fc;" />
          </children>
       </HBox>
       <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="27.0" prefWidth="107.0" text="Serie:" GridPane.rowIndex="1">
@@ -67,12 +67,12 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="okButton" defaultButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="OK" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <Button fx:id="okButton" defaultButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" style="-fx-background-color: #b7e5fc;" text="OK" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets left="60.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" style="-fx-background-color: #b7e5fc;" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets left="130.0" />
          </GridPane.margin>
