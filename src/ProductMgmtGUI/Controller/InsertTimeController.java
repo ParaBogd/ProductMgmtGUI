@@ -96,15 +96,16 @@ public class InsertTimeController {
         TimpiController controller = new TimpiController();
         int etapa = controller.getEtapa();
 
+        MainController mainController = new MainController();
+        int idSerie = mainController.getIDSerie();
+
 
             try {
-                DBconnector.getInstance().executeQuerryTimpi(DBconnector.getInstance().stringInsertTimp(etapa, date, ora, min, sec));
+                DBconnector.getInstance().executeQuerryTimpi(DBconnector.getInstance().stringInsertTimp(etapa, idSerie , date, ora, min, sec));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-
-
     }
 
     private String getEtapaLabel (int etapa) {

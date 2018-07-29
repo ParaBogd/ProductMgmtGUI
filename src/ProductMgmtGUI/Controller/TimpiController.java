@@ -102,6 +102,8 @@ public class TimpiController {
 
     final ContextMenu contextMenu = new ContextMenu();
 
+    MainController controller = new MainController();
+
 
     String pattern = "yyyy-MM-dd HH:mm:ss";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -129,7 +131,7 @@ public class TimpiController {
             public void handle(ActionEvent event) {
                 System.out.println(etapa);
                 try {
-                    DBconnector.getInstance().executeQuerryTimpi(DBconnector.getInstance().stringStergeTimp(etapa));
+                    DBconnector.getInstance().executeQuerryTimpi(DBconnector.getInstance().stringStergeTimp(etapa, controller.getIDSerie()));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -181,30 +183,27 @@ public class TimpiController {
 
 // Se verifica daca in baza de date exista un timp si daca da se blocheaza butonul de adugare
         Timpi timp = cautaTimp();
-        if(timp.getDivizare_inceput() != null){addDivIn.setDisable(true);}else{addDivIn.setDisable(false);}
-        if(timp.getDivizare_final() != null){addDivSf.setDisable(true);}else{addDivSf.setDisable(false);}
-        if(timp.getPreparare_inceput() != null) {addPrepIn.setDisable(true);}else{addPrepIn.setDisable(false);}
-        if(timp.getPreparare_sfarsit() != null) {addPrepSf.setDisable(true);}else{addPrepSf.setDisable(false);}
-        if(timp.getFiltrare_inceput() != null) {addFilIn.setDisable(true);}else{addFilIn.setDisable(false);}
-        if(timp.getFiltrare_sfarsit() != null) {addFilSf.setDisable(true);}else{addFilSf.setDisable(false);}
-        if(timp.getUmplere_inceput() != null) {addUmpIn.setDisable(true);}else{addUmpIn.setDisable(false);}
-        if(timp.getUmplere_final() != null) {addUmpSf.setDisable(true);}else{addUmpSf.setDisable(false);}
-        if(timp.getSterilizare_inceput() != null) {addSterIn.setDisable(true);}else{addSterIn.setDisable(false);}
-        if(timp.getSterilizare_final() != null) {addSterSf.setDisable(true);}else{addSterSf.setDisable(false);}
-        if(timp.getControl_macroscopic_inceput() != null) {addCmIn.setDisable(true);}else{addCmIn.setDisable(false);}
-        if(timp.getControl_macroscopic_final() != null) {addCmSf.setDisable(true);}else{addCmSf.setDisable(false);}
-        if(timp.getAmbalare_inceput() != null) {addAmbIn.setDisable(true);}else{addAmbIn.setDisable(false);}
-        if(timp.getAmbalare_final() != null) {addAmbSf.setDisable(true);}else{addAmbSf.setDisable(false);}
+        if(timp.getDivizareInceput() != null){addDivIn.setDisable(true);}else{addDivIn.setDisable(false);}
+        if(timp.getDivizareFinal() != null){addDivSf.setDisable(true);}else{addDivSf.setDisable(false);}
+        if(timp.getPreparareInceput() != null) {addPrepIn.setDisable(true);}else{addPrepIn.setDisable(false);}
+        if(timp.getPreparareSfarsit() != null) {addPrepSf.setDisable(true);}else{addPrepSf.setDisable(false);}
+        if(timp.getFiltrareInceput() != null) {addFilIn.setDisable(true);}else{addFilIn.setDisable(false);}
+        if(timp.getFiltrareSfarsit() != null) {addFilSf.setDisable(true);}else{addFilSf.setDisable(false);}
+        if(timp.getUmplereInceput() != null) {addUmpIn.setDisable(true);}else{addUmpIn.setDisable(false);}
+        if(timp.getUmplereFinal() != null) {addUmpSf.setDisable(true);}else{addUmpSf.setDisable(false);}
+        if(timp.getSterilizareInceput() != null) {addSterIn.setDisable(true);}else{addSterIn.setDisable(false);}
+        if(timp.getSterilizareFinal() != null) {addSterSf.setDisable(true);}else{addSterSf.setDisable(false);}
+        if(timp.getControlMacroscopicInceput() != null) {addCmIn.setDisable(true);}else{addCmIn.setDisable(false);}
+        if(timp.getControlMacroscopicFinal() != null) {addCmSf.setDisable(true);}else{addCmSf.setDisable(false);}
+        if(timp.getAmbalareInceput() != null) {addAmbIn.setDisable(true);}else{addAmbIn.setDisable(false);}
+        if(timp.getAmbalareFinal() != null) {addAmbSf.setDisable(true);}else{addAmbSf.setDisable(false);}
 
 
 
 // se seteaza etapa la momentul la care se da right-click pe label-ul cu timp
         div_inceput.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
             @Override
-            public void handle(ContextMenuEvent event) {
-                etapa=11;
-                System.out.println(etapa);
-            }
+            public void handle(ContextMenuEvent event) { etapa=11; }
         });
 
         div_sfarsit.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
@@ -298,7 +297,7 @@ public class TimpiController {
             }
         });
 
-//  Se evoca dialogul de adaugare timpi si pentru fiecare buton se atribuie codul etapei
+//  Se evoca dialogul de adaugare timpi si pentru fiecare buton se atribuie valoarea etapei
 
         addDivIn.setOnAction(event -> {
             etapa=11;
@@ -442,7 +441,7 @@ public class TimpiController {
            exitWindow();
        });
 
-
+// Permite miscarea casutei de fialog
        timpiGridPane.setOnMousePressed(new javafx.event.EventHandler<MouseEvent>() {
            @Override
            public void handle(MouseEvent event) {
@@ -479,46 +478,46 @@ public class TimpiController {
         Timpi timp = cautaTimp();
         switch(etapa) {
             case 11:
-                timestamp = timp.getDivizare_inceput();
+                timestamp = timp.getDivizareInceput();
                 break;
             case 12:
-                timestamp = timp.getDivizare_final();
+                timestamp = timp.getDivizareFinal();
                 break;
             case 21:
-                timestamp = timp.getPreparare_inceput();
+                timestamp = timp.getPreparareInceput();
                 break;
             case 22:
-                timestamp = timp.getPreparare_sfarsit();
+                timestamp = timp.getPreparareSfarsit();
                 break;
             case 31:
-                timestamp = timp.getFiltrare_inceput();
+                timestamp = timp.getFiltrareInceput();
                 break;
             case 32:
-                timestamp = timp.getFiltrare_sfarsit();
+                timestamp = timp.getFiltrareSfarsit();
                 break;
             case 41:
-                timestamp = timp.getUmplere_inceput();
+                timestamp = timp.getUmplereInceput();
                 break;
             case 42:
-                timestamp = timp.getUmplere_final();
+                timestamp = timp.getUmplereFinal();
                 break;
             case 51:
-                timestamp = timp.getSterilizare_inceput();
+                timestamp = timp.getSterilizareInceput();
                 break;
             case 52:
-                timestamp = timp.getSterilizare_final();
+                timestamp = timp.getSterilizareFinal();
                 break;
             case 61:
-                timestamp = timp.getControl_macroscopic_inceput();
+                timestamp = timp.getControlMacroscopicInceput();
                 break;
             case 62:
-                timestamp = timp.getControl_macroscopic_final();
+                timestamp = timp.getControlMacroscopicFinal();
                 break;
             case 71:
-                timestamp = timp.getAmbalare_inceput();
+                timestamp = timp.getAmbalareInceput();
                 break;
             case 72:
-                timestamp = timp.getAmbalare_final();
+                timestamp = timp.getAmbalareFinal();
                 break;
         }
         return timestamp;
@@ -544,6 +543,7 @@ public class TimpiController {
         ArrayList<Timpi> timpi = DBconnector.getInstance().querryTimpi();
         MainController controller = new MainController();
         int idSerie = controller.getIDSerie();
+        System.out.println(idSerie);
         for(Timpi timp:timpi) {
             if (idSerie == timp.getIdSerie()) {
                 timpRet = timp;
@@ -557,7 +557,7 @@ public class TimpiController {
 
         Parent root;
 
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("ProductMgmtGui/View/InsertTimeDialog.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/ProductMgmtGUI/View/InsertTimeDialog.fxml"));
         Stage stage = new Stage();
         stage.setTitle("Adauga timpi");
         stage.setScene(new Scene(root));

@@ -111,6 +111,8 @@ public class MainController {
                 addSerie.setDisable(false);
                 delProdus.setDisable(false);
                 listSerii.setItems(null);
+                idSerie = 0;
+                System.out.println(idSerie);
                 if(listProduse.getSelectionModel().isEmpty()){
                     idProdus = 0;
                 }else {
@@ -184,8 +186,8 @@ public class MainController {
 
 
         delProdus.setOnAction(event -> {
-            if(showAlert("Doriti sa stergeti produsul", "Stergerea produsului va duce la stergerea" +
-                    "tuturor seriilor asociate si a a timpilor asociati acestora")){
+            if(showAlert("Doriti sa stergeti produsul", "Stergerea produsului va duce la stergerea " +
+                    "tuturor seriilor asociate si a a timpiilor asociati acestora")){
                 try {
                     DBconnector.getInstance().deleteProdus(idProdus);
                     listProduse.setItems(DBconnector.getInstance().queryProduseObservList());
@@ -231,10 +233,14 @@ public class MainController {
         });
 
         vizTimpi.setOnAction(event -> {
-            try{
-                vizTimpipress(event);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(idSerie == 0){
+                showAlert("Nici o serie slectata", "Selectati o serie pentru care doriti sa vedeti timpii");
+            }else {
+                try {
+                    vizTimpipress(event);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -248,7 +254,6 @@ public class MainController {
        }
    });
 
-
    menuBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
        @Override
        public void handle(MouseEvent event) {
@@ -258,7 +263,7 @@ public class MainController {
    });
 
     }
-//obtinerea stage-ulu necesar pentru operatiuniile de mutare;
+//obtinerea stage-ului necesar pentru operatiuniile de mutare;
     public Stage getStage () {
         Stage stage = (Stage) mainBorderPane.getScene().getWindow();
         return stage;
@@ -306,7 +311,6 @@ public class MainController {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             ProductInputDialogueController controller = fxmlLoader.getController();
             controller.processResult();
-            DBconnector.getInstance().open();
             listProduse.setItems(DBconnector.getInstance().queryProduseObservList()); //pentru a face vizibila noua aditie trebuie reinitializata lista din listview
 
         }
@@ -333,7 +337,7 @@ public class MainController {
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             ProductInputDialogueController controller = fxmlLoader.getController();
-            controller.modifProd();
+            controller.modificaProdus();
             listProduse.setItems(DBconnector.getInstance().queryProduseObservList());
 
         }

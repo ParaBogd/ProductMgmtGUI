@@ -11,7 +11,7 @@ public class ProductInputDialogueController {
     @FXML
     private TextField prodInputField;
 
-    public void modifProd () {
+    public void modificaProdus() {
         MainController controller = new MainController();
 
         String nume = prodInputField.getText().trim();
@@ -21,7 +21,7 @@ public class ProductInputDialogueController {
         else {
 
             try {
-                DBconnector.getInstance().modifProdus(nume, controller.getIDProdus());
+                DBconnector.getInstance().modificaProdus(nume, controller.getIDProdus());
             } catch (SQLException e) {
                 e.printStackTrace();
             }

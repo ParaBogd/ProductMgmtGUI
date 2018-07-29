@@ -4,7 +4,7 @@ public class Produs {
 
     private int id;
     private String name;
-    private String tip;
+
 
     public int getId() {
         return id;

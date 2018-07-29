@@ -6,38 +6,36 @@ public class Timpi {
 
 
     private int idtimpi;
-    private Timestamp divizare_inceput;
-    private Timestamp divizare_final;
-    private Timestamp Preparare_inceput;
-    private Timestamp Preparare_sfarsit;
-    private Timestamp Filtrare_inceput;
-    private Timestamp Filtrare_sfarsit;
-    private Timestamp Umplere_inceput;
-    private Timestamp Umplere_final;
-    private boolean Sterilizat;
-
-    private Timestamp Sterilizare_inceput;
-    private Timestamp Sterilizare_final;
-    private Timestamp Control_macroscopic_inceput;
-    private Timestamp Control_macroscopic_final;
-    private Timestamp Ambalare_inceput;
-    private Timestamp Ambalare_final;
+    private Timestamp divizareInceput;
+    private Timestamp divizareFinal;
+    private Timestamp preparareInceput;
+    private Timestamp preparareSfarsit;
+    private Timestamp filtrareInceput;
+    private Timestamp filtrareSfarsit;
+    private Timestamp umplereInceput;
+    private Timestamp umplereFinal;
+    private Timestamp sterilizareInceput;
+    private Timestamp sterilizareFinal;
+    private Timestamp controlMacroscopicInceput;
+    private Timestamp controlMacroscopicFinal;
+    private Timestamp ambalareInceput;
+    private Timestamp ambalareFinal;
     private int idSerie;
 
-    public Timestamp getUmplere_inceput() {
-        return Umplere_inceput;
+    public Timestamp getUmplereInceput() {
+        return umplereInceput;
     }
 
-    public void setUmplere_inceput(Timestamp umplere_inceput) {
-        Umplere_inceput = umplere_inceput;
+    public void setUmplereInceput(Timestamp umplereInceput) {
+        this.umplereInceput = umplereInceput;
     }
 
-    public Timestamp getUmplere_final() {
-        return Umplere_final;
+    public Timestamp getUmplereFinal() {
+        return umplereFinal;
     }
 
-    public void setUmplere_final(Timestamp umplere_final) {
-        Umplere_final = umplere_final;
+    public void setUmplereFinal(Timestamp umplereFinal) {
+        this.umplereFinal = umplereFinal;
     }
 
     public int getIdtimpi() {
@@ -49,108 +47,100 @@ public class Timpi {
     }
 
 
-    public Timestamp getDivizare_inceput() {
-        return divizare_inceput;
+    public Timestamp getDivizareInceput() {
+        return divizareInceput;
     }
 
-    public void setDivizare_inceput(Timestamp divizare_inceput) {
-        this.divizare_inceput = divizare_inceput;
+    public void setDivizareInceput(Timestamp divizareInceput) {
+        this.divizareInceput = divizareInceput;
     }
 
-    public Timestamp getDivizare_final() {
-        return divizare_final;
+    public Timestamp getDivizareFinal() {
+        return divizareFinal;
     }
 
-    public void setDivizare_final(Timestamp divizare_final) {
-        this.divizare_final = divizare_final;
+    public void setDivizareFinal(Timestamp divizareFinal) {
+        this.divizareFinal = divizareFinal;
     }
 
-    public Timestamp getPreparare_inceput() {
-        return Preparare_inceput;
+    public Timestamp getPreparareInceput() {
+        return preparareInceput;
     }
 
-    public void setPreparare_inceput(Timestamp preparare_inceput) {
-        Preparare_inceput = preparare_inceput;
+    public void setPreparareInceput(Timestamp preparareInceput) {
+        this.preparareInceput = preparareInceput;
     }
 
-    public Timestamp getPreparare_sfarsit() {
-        return Preparare_sfarsit;
+    public Timestamp getPreparareSfarsit() {
+        return preparareSfarsit;
     }
 
-    public void setPreparare_sfarsit(Timestamp preparare_sfarsit) {
-        Preparare_sfarsit = preparare_sfarsit;
+    public void setPreparareSfarsit(Timestamp preparareSfarsit) {
+        this.preparareSfarsit = preparareSfarsit;
     }
 
-    public Timestamp getFiltrare_inceput() {
-        return Filtrare_inceput;
+    public Timestamp getFiltrareInceput() {
+        return filtrareInceput;
     }
 
-    public void setFiltrare_inceput(Timestamp filtrare_inceput) {
-        Filtrare_inceput = filtrare_inceput;
+    public void setFiltrareInceput(Timestamp filtrareInceput) {
+        this.filtrareInceput = filtrareInceput;
     }
 
-    public Timestamp getFiltrare_sfarsit() {
-        return Filtrare_sfarsit;
+    public Timestamp getFiltrareSfarsit() {
+        return filtrareSfarsit;
     }
 
-    public void setFiltrare_sfarsit(Timestamp filtrare_sfarsit) {
-        Filtrare_sfarsit = filtrare_sfarsit;
+    public void setFiltrareSfarsit(Timestamp filtrareSfarsit) {
+        this.filtrareSfarsit = filtrareSfarsit;
     }
 
-    public boolean isSterilizat() {
-        return Sterilizat;
+    public Timestamp getSterilizareInceput() {
+        return sterilizareInceput;
     }
 
-    public void setSterilizat(boolean sterilizat) {
-        Sterilizat = sterilizat;
+    public void setSterilizareInceput(Timestamp sterilizareInceput) {
+        this.sterilizareInceput = sterilizareInceput;
     }
 
-    public Timestamp getSterilizare_inceput() {
-        return Sterilizare_inceput;
+    public Timestamp getSterilizareFinal() {
+        return sterilizareFinal;
     }
 
-    public void setSterilizare_inceput(Timestamp sterilizare_inceput) {
-        Sterilizare_inceput = sterilizare_inceput;
+    public void setSterilizareFinal(Timestamp sterilizareFinal) {
+        this.sterilizareFinal = sterilizareFinal;
     }
 
-    public Timestamp getSterilizare_final() {
-        return Sterilizare_final;
+    public Timestamp getControlMacroscopicInceput() {
+        return controlMacroscopicInceput;
     }
 
-    public void setSterilizare_final(Timestamp sterilizare_final) {
-        Sterilizare_final = sterilizare_final;
+    public void setControlMacroscopicInceput(Timestamp controlMacroscopicInceput) {
+        this.controlMacroscopicInceput = controlMacroscopicInceput;
     }
 
-    public Timestamp getControl_macroscopic_inceput() {
-        return Control_macroscopic_inceput;
+    public Timestamp getControlMacroscopicFinal() {
+        return controlMacroscopicFinal;
     }
 
-    public void setControl_macroscopic_inceput(Timestamp control_macroscopic_inceput) {
-        Control_macroscopic_inceput = control_macroscopic_inceput;
+    public void setControlMacroscopicFinal(Timestamp controlMacroscopicFinal) {
+        this.controlMacroscopicFinal = controlMacroscopicFinal;
     }
 
-    public Timestamp getControl_macroscopic_final() {
-        return Control_macroscopic_final;
+    public Timestamp getAmbalareInceput() {
+        return ambalareInceput;
     }
 
-    public void setControl_macroscopic_final(Timestamp control_macroscopic_final) {
-        Control_macroscopic_final = control_macroscopic_final;
+    public void setAmbalareInceput(Timestamp ambalareInceput) {
+        this.ambalareInceput = ambalareInceput;
     }
 
-    public Timestamp getAmbalare_inceput() {
-        return Ambalare_inceput;
+    public Timestamp getAmbalareFinal() {
+        return ambalareFinal;
     }
 
-    public void setAmbalare_inceput(Timestamp ambalare_inceput) {
-        Ambalare_inceput = ambalare_inceput;
-    }
-
-    public Timestamp getAmbalare_final() {
-        return Ambalare_final;
-    }
-
-    public void setAmbalare_final(Timestamp ambalare_final) {
-        Ambalare_final = ambalare_final;
+    public void setAmbalareFinal(Timestamp ambalareFinal) {
+        this.ambalareFinal = ambalareFinal;
     }
 
     public int getIdSerie() {

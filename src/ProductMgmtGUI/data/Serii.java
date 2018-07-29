@@ -3,7 +3,7 @@ package ProductMgmtGUI.data;
 public class Serii {
 
     private int idSerii;
-    private String NumarSerie;
+    private String numarSerie;
     private int idProdus;
 
     public int getIdSerii() {
@@ -15,11 +15,11 @@ public class Serii {
     }
 
     public String getNumarSerie() {
-        return NumarSerie;
+        return numarSerie;
     }
 
     public void setNumarSerie(String numarSerie) {
-        NumarSerie = numarSerie;
+        this.numarSerie = numarSerie;
     }
 
     public int getIdProdus() {

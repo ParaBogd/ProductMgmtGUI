@@ -1,6 +1,5 @@
 package ProductMgmtGUI.data;
 
-import ProductMgmtGUI.Controller.MainController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -116,8 +115,6 @@ public class DBconnector {
                 deleteSerie.close();
             }
 
-
-
             if (newTimp != null) {
                 newTimp.close();
             }
@@ -128,7 +125,7 @@ public class DBconnector {
     }
 
     public ObservableList<Produs> queryProduseObservList() {
-//        open();
+
         try (Statement mySmt = myCon.createStatement();
              ResultSet myRs = mySmt.executeQuery("SELECT * FROM " + TABLE_PRODUS)){
 
@@ -140,7 +137,6 @@ public class DBconnector {
                 produs.setName(myRs.getString(COLUMN_NUME_PRODUS));
                 produse.add(produs);
             }
-//            close();
             return produse;
         }
         catch (SQLException e) {
@@ -199,21 +195,20 @@ public class DBconnector {
             while (myRs.next()){
                 Timpi timp = new Timpi();
                 timp.setIdtimpi(myRs.getInt(COLUMN_ID_TIMPI));
-                timp.setDivizare_inceput(myRs.getTimestamp(COLUMN_DIVIZARE_INCEPUT));
-                timp.setDivizare_final(myRs.getTimestamp(COLUMN_DIVIZARE_FINAL));
-                timp.setPreparare_inceput(myRs.getTimestamp(COLUMN_PREPARARE_INCEPUT));
-                timp.setPreparare_sfarsit(myRs.getTimestamp(COLUMN_PREPARARE_SFARSIT));
-                timp.setFiltrare_inceput(myRs.getTimestamp(COLUMN_FILTRARE_INCEPUT));
-                timp.setFiltrare_sfarsit(myRs.getTimestamp(COLUMN_FILTRARE_SFARSIT));
-                timp.setUmplere_inceput(myRs.getTimestamp(COLUMN_UMPLERE_INCEPUT));
-                timp.setUmplere_final(myRs.getTimestamp(COLUMN_UMPLERE_SFARSIT));
-//                timp.setSterilizat(myRs.getBoolean(COLUMN_STERILIZAT));
-                timp.setSterilizare_inceput(myRs.getTimestamp(COLUMN_STERILIZARE_INCEPUT));
-                timp.setSterilizare_final(myRs.getTimestamp(COLUMN_STERILIZARE_FINAL));
-                timp.setControl_macroscopic_inceput(myRs.getTimestamp(COLUMN_CONTROL_MACROSCOPIC_INCEPUT));
-                timp.setControl_macroscopic_final(myRs.getTimestamp(COLUMN_CONTROL_MACROSCOPIC_FINAL));
-                timp.setAmbalare_inceput(myRs.getTimestamp(COLUMN_AMBALARE_INCEPUT));
-                timp.setAmbalare_final(myRs.getTimestamp(COLUMN_AMBALARE_FINAL));
+                timp.setDivizareInceput(myRs.getTimestamp(COLUMN_DIVIZARE_INCEPUT));
+                timp.setDivizareFinal(myRs.getTimestamp(COLUMN_DIVIZARE_FINAL));
+                timp.setPreparareInceput(myRs.getTimestamp(COLUMN_PREPARARE_INCEPUT));
+                timp.setPreparareSfarsit(myRs.getTimestamp(COLUMN_PREPARARE_SFARSIT));
+                timp.setFiltrareInceput(myRs.getTimestamp(COLUMN_FILTRARE_INCEPUT));
+                timp.setFiltrareSfarsit(myRs.getTimestamp(COLUMN_FILTRARE_SFARSIT));
+                timp.setUmplereInceput(myRs.getTimestamp(COLUMN_UMPLERE_INCEPUT));
+                timp.setUmplereFinal(myRs.getTimestamp(COLUMN_UMPLERE_SFARSIT));
+                timp.setSterilizareInceput(myRs.getTimestamp(COLUMN_STERILIZARE_INCEPUT));
+                timp.setSterilizareFinal(myRs.getTimestamp(COLUMN_STERILIZARE_FINAL));
+                timp.setControlMacroscopicInceput(myRs.getTimestamp(COLUMN_CONTROL_MACROSCOPIC_INCEPUT));
+                timp.setControlMacroscopicFinal(myRs.getTimestamp(COLUMN_CONTROL_MACROSCOPIC_FINAL));
+                timp.setAmbalareInceput(myRs.getTimestamp(COLUMN_AMBALARE_INCEPUT));
+                timp.setAmbalareFinal(myRs.getTimestamp(COLUMN_AMBALARE_FINAL));
                 timp.setIdSerie(myRs.getInt(COLUMN_ID_SERIE));
                 timpi.add(timp);
             }
@@ -226,7 +221,7 @@ public class DBconnector {
 
 
     public int insertProdus (String name) throws SQLException {
-        open();
+
         int idProdus = 0;
         ArrayList<Produs> produse = queryProduse();
         for(Produs produs:produse) {
@@ -252,7 +247,6 @@ public class DBconnector {
             throw new SQLException("Nu s-a putut obtine ID-ul produsului");
         }
 
-        close();
         return idProdus;
     }
 
@@ -269,8 +263,6 @@ public class DBconnector {
 
         insertIntoSerii.setString(1, numarSerie);
         insertIntoSerii.setInt(2, idProdus);
-
-
 
         int affectedRows = insertIntoSerii.executeUpdate();
 
@@ -291,7 +283,7 @@ public class DBconnector {
         }
     }
 
-    public void modifProdus (String nume,int idProdus) throws SQLException {
+    public void modificaProdus(String nume, int idProdus) throws SQLException {
 
         ObservableList<Produs> produse = queryProduseObservList();
         for(Produs produs:produse){
@@ -313,15 +305,16 @@ public class DBconnector {
 
     public void deleteProdus (int idProdus) throws SQLException {
 
-                deleteProdus.setInt(1, idProdus);
 
-                int affectedRows = deleteProdus.executeUpdate();
+        deleteProdus.setInt(1, idProdus);
 
-                if(affectedRows != 1) {
-                    throw new SQLException("Nu s-a putut sterge produsul");
-                }
+        int affectedRows = deleteProdus.executeUpdate();
 
+        if(affectedRows != 1) {
+            throw new SQLException("Nu s-a putut sterge produsul");
         }
+
+    }
 
     public void deleteSerie (int idSerie) throws SQLException {
 
@@ -348,61 +341,13 @@ public class DBconnector {
 
 //     metoda creeza un SQL statement sub forma de string pentru a fi executat de catre metoda de executie,
 //    a fost folosit un string in loc de preparedStatement pentru a putea pasa nume de tabel intr-in mod dinamic
-    public String stringStergeTimp(int etapa) throws SQLException  {
+    public String stringStergeTimp(int etapa, int idSerie) throws SQLException  {
         StringBuilder sb = new StringBuilder();
         sb.append("UPDATE " + TABLE_TIMPI + " SET ");
 
-        sb.append(returnColoanaTimp(etapa));
-
-//        switch (etapa) {
-//            case 11:
-//                sb.append(COLUMN_DIVIZARE_INCEPUT + " = ");
-//                break;
-//            case 12:
-//                sb.append(COLUMN_DIVIZARE_FINAL + " = ");
-//                break;
-//            case 21:
-//                sb.append(COLUMN_PREPARARE_INCEPUT + " = ");
-//                break;
-//            case 22:
-//                sb.append(COLUMN_PREPARARE_SFARSIT + " = ");
-//                break;
-//            case 31:
-//                sb.append(COLUMN_FILTRARE_INCEPUT + " = ");
-//                break;
-//            case 32:
-//                sb.append(COLUMN_FILTRARE_SFARSIT + " = ");
-//                break;
-//            case 41:
-//                sb.append(COLUMN_UMPLERE_INCEPUT + " = ");
-//                break;
-//            case 42:
-//                sb.append(COLUMN_UMPLERE_SFARSIT + " = ");
-//                break;
-//            case 51:
-//                sb.append(COLUMN_STERILIZARE_INCEPUT + " = ");
-//                break;
-//            case 52:
-//                sb.append(COLUMN_STERILIZARE_FINAL + " = ");
-//                break;
-//            case 61:
-//                sb.append(COLUMN_CONTROL_MACROSCOPIC_INCEPUT + " = ");
-//                break;
-//            case 62:
-//                sb.append(COLUMN_CONTROL_MACROSCOPIC_FINAL + " = ");
-//                break;
-//            case 71:
-//                sb.append(COLUMN_AMBALARE_INCEPUT + " = ");
-//                break;
-//            case 72:
-//                sb.append(COLUMN_AMBALARE_FINAL + " = ");
-//                break;
-//        }
+        sb.append(obtineColoanaTimp(etapa));
 
         sb.append(" = NULL WHERE " + COLUMN_ID_SERIE + " = ");
-
-        MainController controller = new MainController();
-        int idSerie = controller.getIDSerie();
 
         sb.append(idSerie);
 
@@ -412,67 +357,22 @@ public class DBconnector {
 
     //metoda care preia datele din InsertTimesController si creeaza un query care e pasata la executeTimpQuerry
 //    string in loc de preparedStatement pentru a selecta dincamic numele coloanei din tabel
-    public String stringInsertTimp(int etapa, String data, String ora, String minut, String secunda) {
+    public String stringInsertTimp(int etapa, int idSerie,String data, String ora, String minut, String secunda) {
         StringBuilder sb = new StringBuilder();
         sb.append(" UPDATE " + TABLE_TIMPI + " SET ");
 
-        sb.append(returnColoanaTimp(etapa));
-//        switch (etapa) {
-//            case 11:
-//                sb.append(COLUMN_DIVIZARE_INCEPUT + " = ");
-//                break;
-//            case 12:
-//                sb.append(COLUMN_DIVIZARE_FINAL + " = ");
-//                break;
-//            case 21:
-//                sb.append(COLUMN_PREPARARE_INCEPUT + " = ");
-//                break;
-//            case 22:
-//                sb.append(COLUMN_PREPARARE_SFARSIT + " = ");
-//                break;
-//            case 31:
-//                sb.append(COLUMN_FILTRARE_INCEPUT + " = ");
-//                break;
-//            case 32:
-//                sb.append(COLUMN_FILTRARE_SFARSIT + " = ");
-//                break;
-//            case 41:
-//                sb.append(COLUMN_UMPLERE_INCEPUT + " = ");
-//                break;
-//            case 42:
-//                sb.append(COLUMN_UMPLERE_SFARSIT + " = ");
-//                break;
-//            case 51:
-//                sb.append(COLUMN_STERILIZARE_INCEPUT + " = ");
-//                break;
-//            case 52:
-//                sb.append(COLUMN_STERILIZARE_FINAL + " = ");
-//                break;
-//            case 61:
-//                sb.append(COLUMN_CONTROL_MACROSCOPIC_INCEPUT + " = ");
-//                break;
-//            case 62:
-//                sb.append(COLUMN_CONTROL_MACROSCOPIC_FINAL + " = ");
-//                break;
-//            case 71:
-//                sb.append(COLUMN_AMBALARE_INCEPUT + " = ");
-//                break;
-//            case 72:
-//                sb.append(COLUMN_AMBALARE_FINAL + " = ");
-//                break;
-//        }
+        sb.append(obtineColoanaTimp(etapa));
 
         sb.append(" = '" + data + ' ' + ora + ':' + minut + ':' + secunda + "'");
         sb.append(" WHERE idSerie = ");
-        MainController controller = new MainController();
-        sb.append(controller.getIDSerie());
+        sb.append(idSerie);
         String test = sb.toString();
         System.out.println(test);
         return sb.toString();
     }
 
-//    metoda alege in functie de codul etapei primite de la timpiController numele coloanei;
-    public String returnColoanaTimp (int etapa) {
+//    metoda alege in functie de valoarea etapei primite de la timpiController numele coloanei;
+    public String obtineColoanaTimp(int etapa) {
         String etapaStr = null;
         switch (etapa) {
             case 11:
