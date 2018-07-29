@@ -64,7 +64,6 @@ public class InsertTimeController {
         TimpiController controllerTimpi = new TimpiController();
         int etapa = controllerTimpi.getEtapa();
         etapaLabel.setText(getEtapaLabel(etapa));
-//        System.out.println(etapa);
 
         MainController controller = new MainController();
         seriaLabel.setText(controller.getNumarSerie());

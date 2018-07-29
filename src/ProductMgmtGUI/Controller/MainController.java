@@ -102,6 +102,7 @@ public class MainController {
     @FXML
     void initialize() {
 
+        // codul care seteaza idProdus in functie de ce produs e selectat, si seteaza menuItem-urile relevante pe vizibil
         listProduse.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Produs>() {
             @Override
             public void changed(ObservableValue<? extends Produs> observable, Produs oldValue, Produs newValue) {
@@ -115,11 +116,11 @@ public class MainController {
                 }else {
                     idProdus = listProduse.getSelectionModel().selectedItemProperty().getValue().getId();
                     System.out.println(getIDProdus());
-
                 }
             }
         });
 
+        // codul care seteaza idSerie si numarSerie in functie de ce serie e selectata, si seteaza menuItem-urile relevante pe vizibil
         listSerii.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Serii>() {
 
             @Override
@@ -137,6 +138,7 @@ public class MainController {
             }
         });
 
+//        popularea listei de produse si setarea selectiei pentru ambele liste pe single
         listProduse.setItems(DBconnector.getInstance().queryProduseObservList());
         listProduse.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         listSerii.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -150,7 +152,7 @@ public class MainController {
                         if (empty) {
                             setText(null);
                         } else {
-                            setText(item.getName());
+                            setText(item.getName()); //afisarea ca String a numelui item-ului de tip Produs din lista;
                         }
                     }
                 };
@@ -237,7 +239,7 @@ public class MainController {
         });
 
 
-
+// urmatoarele doua evenimente permit mutarea ferestrei prin click&drag pe menuBar
    menuBar.setOnMousePressed(new javafx.event.EventHandler<MouseEvent>() {
        @Override
        public void handle(MouseEvent event) {
@@ -256,7 +258,7 @@ public class MainController {
    });
 
     }
-
+//obtinerea stage-ulu necesar pentru operatiuniile de mutare;
     public Stage getStage () {
         Stage stage = (Stage) mainBorderPane.getScene().getWindow();
         return stage;
@@ -332,7 +334,6 @@ public class MainController {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             ProductInputDialogueController controller = fxmlLoader.getController();
             controller.modifProd();
-//            DBconnector.getInstance().open();
             listProduse.setItems(DBconnector.getInstance().queryProduseObservList());
 
         }
@@ -344,7 +345,7 @@ public class MainController {
         dialog.initOwner(mainBorderPane.getScene().getWindow());
         dialog.setTitle("Adauga o serie noua");
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("View/InsertSerieDialog.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/ProductMgmtGUI/View/InsertSerieDialog.fxml"));
 
         try{
             dialog.getDialogPane().setContent(fxmlLoader.load());
@@ -391,16 +392,6 @@ public class MainController {
         stage.show();
     }
 
-//    public void vizAddTimpi (javafx.event.ActionEvent event) throws IOException {
-//        Parent root;
-//        root = FXMLLoader.load(getClass().getResource("View/InsertTimes.fxml"));
-//        Stage stage = new Stage();
-//        stage.setTitle("Adauga timpi");
-//        stage.setScene(new Scene(root, 800, 600));
-//        stage.initModality(Modality.WINDOW_MODAL);
-//        stage.initOwner(mainBorderPane.getScene().getWindow());
-//        stage.show();
-//    }
 
     public void aboutdialog () {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

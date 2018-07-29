@@ -480,11 +480,9 @@ public class TimpiController {
         switch(etapa) {
             case 11:
                 timestamp = timp.getDivizare_inceput();
-//                System.out.println(timp);
                 break;
             case 12:
                 timestamp = timp.getDivizare_final();
-//                System.out.println(timp);
                 break;
             case 21:
                 timestamp = timp.getPreparare_inceput();
@@ -504,13 +502,6 @@ public class TimpiController {
             case 42:
                 timestamp = timp.getUmplere_final();
                 break;
-//            case 50:
-//                if(timp.isSterilizat()){
-//                    System.out.println("DA");
-//                }else{
-//                    System.out.println("NU");
-//                }
-//                break;
             case 51:
                 timestamp = timp.getSterilizare_inceput();
                 break;
@@ -534,29 +525,17 @@ public class TimpiController {
     }
 
     public String checkTimp (int etapa) {
-        String returned = null;
-        String timpRet;
+        String returned;
         String noTimp = "Nu exista timp inregistrat";
-        String sterilizat = "Produsul nu se sterilizeaza";
 
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-//        if(etapa == 50 && cautaTimp().isSterilizat() == false){
-//           returned = "Nu se sterilizeaza";
-//           if(etapa == 51 || etapa == 52){
-//               returned = sterilizat;
-//           }
-//        }else {
             if (getTimes(etapa) != null) {
                 returned = simpleDateFormat.format(getTimes(etapa));
             } else {
                 returned = noTimp;
-//                if(etapa == 50 && cautaTimp().isSterilizat())
-//                {
-//                    returned = "Se sterilizeaza";
-//                }
             }
-//        }
+
         return returned;
     }
 
@@ -569,22 +548,10 @@ public class TimpiController {
             if (idSerie == timp.getIdSerie()) {
                 timpRet = timp;
             }
-//            else{
-//                System.out.println("Timpul cautat nu exista");
-//            }
         }
         return timpRet;
     }
 
-//    public void checkNull () {
-//        String zero = null;
-//        if( simpleDateFormat.format(DBconnector.getInstance().querryTimpi().get(1).getFiltrare_inceput()) != null && simpleDateFormat.format(DBconnector.getInstance().querryTimpi().get(1).getFiltrare_inceput()).isEmpty()){
-//            System.out.println("Succes");
-//        }
-//        else{
-//            System.out.println("FAIL!");
-//        }
-//    }
 
     public void vizAddTimpiDialog (javafx.event.ActionEvent event) throws IOException {
 
@@ -604,24 +571,6 @@ public class TimpiController {
         });
 
     }
-
-//    public void updateLabels () {
-//        div_inceput.setText(checkTimp(11));
-//        div_sfarsit.setText(checkTimp(12));
-//        prepInceput.setText(checkTimp(21));
-//        prepSfarsit.setText(checkTimp(22));
-//        filtrInceput.setText(checkTimp(31));
-//        filtrSfarsit.setText(checkTimp(32));
-//        umplInceput.setText(checkTimp(41));
-//        umplSfarsit.setText(checkTimp(42));
-//        sterilizat.setText(checkTimp(50));
-//        sterInceput.setText(checkTimp(51));
-//        sterSfarsit.setText(checkTimp(52));
-//        contrMcInceput.setText(checkTimp(61));
-//        controlMcSfarsit.setText(checkTimp(62));
-//        ambInceeput.setText(checkTimp(71));
-//        ambSfarsit.setText(checkTimp(72));
-//    }
 
 
     public static int getEtapa() {

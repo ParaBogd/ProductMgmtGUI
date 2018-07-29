@@ -15,7 +15,7 @@ public class Main extends Application {
         DBconnector.getInstance().open();
         Parent root = FXMLLoader.load(getClass().getResource("View/MgmtWindow.fxml"));
         primaryStage.setTitle("Management Produs 3000");
-        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.initStyle(StageStyle.UNDECORATED); //se face bara de windows invizibila
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.setResizable(false);
         primaryStage.show();
@@ -32,12 +32,12 @@ public class Main extends Application {
 
     @Override
     public void init() throws Exception {
-        DBconnector.getInstance().open();
+        DBconnector.getInstance().open();   //la pornire se deschide conexiunea cu baza de date
     }
 
     @Override
     public void stop() throws Exception {
-        DBconnector.getInstance().close();
+        DBconnector.getInstance().close(); //la oprire se inchide conexiunea cu baza de date
     }
 
 

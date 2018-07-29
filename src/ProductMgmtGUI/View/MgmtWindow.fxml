@@ -13,19 +13,7 @@
 
 <BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="790.0" style="-fx-background-color: #e3f5fe" stylesheets="@MgmtStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProductMgmtGUI.Controller.MainController">
    <left>
-       <!--<VBox>-->
-          <!--<children>-->
-              <!--<Label text="Produs">-->
-                  <!--<font>-->
-                      <!--<Font name="System Bold" size="18" />-->
-                  <!--</font>-->
-               <!--<VBox.margin>-->
-                  <!--<Insets left="15.0" />-->
-               <!--</VBox.margin>-->
-              <!--</Label>-->
          <ListView fx:id="listProduse" prefHeight="556.0" prefWidth="337.0" style="-fx-font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif; -fx-font-size: 12;" BorderPane.alignment="CENTER" />
-          <!--</children>-->
-       <!--</VBox>-->
    </left>
    <right>
       <ListView fx:id="listSerii" prefHeight="556.0" prefWidth="331.0" BorderPane.alignment="CENTER" />
