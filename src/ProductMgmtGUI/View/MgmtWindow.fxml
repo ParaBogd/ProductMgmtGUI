@@ -11,7 +11,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="790.0" style="-fx-background-color: #e3f5fe" stylesheets="@View/MgmtStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProductMgmtGUI.MainController">
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="790.0" style="-fx-background-color: #e3f5fe" stylesheets="@MgmtStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProductMgmtGUI.Controller.MainController">
    <left>
        <!--<VBox>-->
           <!--<children>-->

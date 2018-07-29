@@ -1,6 +1,5 @@
-package ProductMgmtGUI;
+package ProductMgmtGUI.Controller;
 
-import ProductMgmtGUI.Controller.InsertSerieController;
 import ProductMgmtGUI.data.DBconnector;
 import ProductMgmtGUI.data.Produs;
 import ProductMgmtGUI.data.Serii;
@@ -289,7 +288,7 @@ public class MainController {
         dialog.initOwner(mainBorderPane.getScene().getWindow());
         dialog.setTitle("Adauga un Produs nou");
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("ProductInputDialogue.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/ProductMgmtGUI/View/ProductInputDialogue.fxml"));
 
         try {
             dialog.getDialogPane().setContent(fxmlLoader.load());
@@ -317,7 +316,7 @@ public class MainController {
         dialog.initOwner(mainBorderPane.getScene().getWindow());
         dialog.setTitle("Modifica  denumirea produsului selectat");
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("ProductInputDialogue.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/ProductMgmtGUI/View/ProductInputDialogue.fxml"));
 
         try {
             dialog.getDialogPane().setContent(fxmlLoader.load());
@@ -382,7 +381,7 @@ public class MainController {
 
     public void vizTimpipress (javafx.event.ActionEvent event) throws IOException {
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("View/Timpi.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/ProductMgmtGUI/View/Timpi.fxml"));
         Stage stage = new Stage();
         stage.setTitle("Vizualizare timpi");
         stage.setScene(new Scene(root, 600, 600));

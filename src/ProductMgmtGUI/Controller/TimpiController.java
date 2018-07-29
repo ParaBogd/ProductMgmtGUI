@@ -1,6 +1,5 @@
 package ProductMgmtGUI.Controller;
 
-import ProductMgmtGUI.MainController;
 import ProductMgmtGUI.data.DBconnector;
 import ProductMgmtGUI.data.Timpi;
 import javafx.event.ActionEvent;

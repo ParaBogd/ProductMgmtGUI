@@ -8,7 +8,7 @@
 
 <DialogPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ProductMgmtGUI.ProductInputDialogueController">
+            fx:controller="ProductMgmtGUI.Controller.ProductInputDialogueController">
     <content>
         <GridPane vgap="10" hgap="10">
             <Label text="Nume Produs: " GridPane.rowIndex="0" GridPane.columnIndex="0"> </Label>

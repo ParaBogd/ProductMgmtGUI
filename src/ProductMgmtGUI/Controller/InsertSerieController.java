@@ -1,6 +1,5 @@
 package ProductMgmtGUI.Controller;
 
-import ProductMgmtGUI.MainController;
 import ProductMgmtGUI.data.DBconnector;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;

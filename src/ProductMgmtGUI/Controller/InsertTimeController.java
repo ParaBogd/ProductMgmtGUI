@@ -1,6 +1,5 @@
 package ProductMgmtGUI.Controller;
 
-import ProductMgmtGUI.MainController;
 import ProductMgmtGUI.data.DBconnector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

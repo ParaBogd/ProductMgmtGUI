@@ -1,6 +1,6 @@
 package ProductMgmtGUI.data;
 
-import ProductMgmtGUI.MainController;
+import ProductMgmtGUI.Controller.MainController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

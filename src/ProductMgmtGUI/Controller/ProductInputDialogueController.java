@@ -1,4 +1,4 @@
-package ProductMgmtGUI;
+package ProductMgmtGUI.Controller;
 
 import ProductMgmtGUI.data.DBconnector;
 import javafx.fxml.FXML;

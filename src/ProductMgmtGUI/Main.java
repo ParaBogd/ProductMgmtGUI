@@ -13,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         DBconnector.getInstance().open();
-        Parent root = FXMLLoader.load(getClass().getResource("MgmtWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("View/MgmtWindow.fxml"));
         primaryStage.setTitle("Management Produs 3000");
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(new Scene(root, 800, 600));
